@@ -1,0 +1,47 @@
+CREATE TABLE produit (
+	id  int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    reference varchar(20),
+    libelle varchar(100),
+    quantiteStock int ,
+    prix int,
+    cover varchar(100),
+    description varchar(200),
+    niveauAlerte int,
+    taxe decimal(18.0)
+);
+
+CREATE TABLE arrivage(
+	id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	quantiteMisStock int,
+    dateStockage date,
+    fk_produitId int  NOT NULL
+);
+
+CREATE TABLE commande(
+ id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    quantiteCommande int,
+    reduction decimal(18.0),
+    prixVente int,
+    fk_factureId int not null
+);
+
+
+CREATE TABLE facture(
+id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    numero bigint,
+    datefacture date,
+    fk_clientId int not null
+);
+
+CREATE TABLE client(
+id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
+ nom varchar(200),
+    telephone int,
+    adresse varchar(200)
+);
+
+ALTER TABLE arrivage ADD CONSTRAINT FOREIGN KEY (fk_produitId) REFERENCES produit(id);
+
+ALTER TABLE facture ADD CONSISTENT FOREIGN KEY (fk_clientId) REFERENCES client(id);
+
+ALTER TABLE commande ADD CONSISTENT FOREIGN KEY (fk_factureId) REFERENCES facture(id);
